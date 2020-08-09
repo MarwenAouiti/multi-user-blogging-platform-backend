@@ -1,14 +1,14 @@
-const express = require("express");
-const morgan = require("morgan");
-const bodyParser = require("body-parser");
-const cookieParser = require("cookie-parser");
-const cors = require("cors");
-const mongoose = require("mongoose");
-require("dotenv").config();
+const express = require('express');
+const morgan = require('morgan');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
+const mongoose = require('mongoose');
+require('dotenv').config();
 
 // routes
-const blogRoutes = require("./routes/blog");
-const authRoutes = require("./routes/auth");
+const blogRoutes = require('./routes/blog');
+const authRoutes = require('./routes/auth');
 
 // app
 const app = express();
@@ -22,20 +22,21 @@ mongoose
     useFindAndModify: false,
   })
   .then(() => {
-    console.log("DB connected");
-  });
+    console.log('DB connected');
+  })
+  .catch((err) => console.log(err));
 
 // middlewares
-app.use(morgan("dev"));
+app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
 // routes middleware
-app.use("/api", blogRoutes);
-app.use("/api", authRoutes);
+app.use('/api', blogRoutes);
+app.use('/api', authRoutes);
 
 // cors
-if (process.env.NODE_ENV === "development") {
+if (process.env.NODE_ENV === 'development') {
   app.use(cors({ origin: `${process.env.CLIENT_URL}` }));
 }
 
