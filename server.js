@@ -13,6 +13,8 @@ const authRoutes = require('./routes/auth');
 // app
 const app = express();
 
+// cors
+app.use(cors());
 //db
 mongoose
   .connect(process.env.DATABASE, {
