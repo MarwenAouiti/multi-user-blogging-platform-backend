@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const crypto = require("crypto");
+const mongoose = require('mongoose');
+const crypto = require('crypto');
 
 const userSchema = new mongoose.Schema(
   {
@@ -39,7 +39,7 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: Number,
-      trim: true,
+      default: 0,
     },
     photo: {
       data: Buffer,
@@ -47,14 +47,14 @@ const userSchema = new mongoose.Schema(
     },
     resetPasswordLink: {
       data: String,
-      default: "",
+      default: '',
     },
   },
   { timestamps: true }
 );
 
 userSchema
-  .virtual("password")
+  .virtual('password')
   .set(function (password) {
     // create a temporary variable called _passwrod
     this._password = password;
@@ -72,19 +72,19 @@ userSchema.methods = {
     return this.encryptPassword(plainText) === this.hashed_password;
   },
   encryptPassword: function (password) {
-    if (!password) return "";
+    if (!password) return '';
     try {
       return crypto
-        .createHmac("sha1", this.salt)
+        .createHmac('sha1', this.salt)
         .update(password)
-        .digest("hex");
+        .digest('hex');
     } catch (error) {
-      return "";
+      return '';
     }
   },
   makeSalt: function () {
-    return Math.round(new Date().valueOf() * Math.random()) + "";
+    return Math.round(new Date().valueOf() * Math.random()) + '';
   },
 };
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model('User', userSchema);
